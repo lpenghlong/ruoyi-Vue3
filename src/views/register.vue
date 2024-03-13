@@ -77,7 +77,7 @@
 
 <script setup>
 import { ElMessageBox } from "element-plus";
-import { getCodeImg, register } from "@/api/login";
+import { register } from "@/api/login";
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
@@ -133,25 +133,10 @@ function handleRegister() {
         }).catch(() => {});
       }).catch(() => {
         loading.value = false;
-        if (captchaEnabled) {
-          getCode();
-        }
       });
     }
   });
 }
-
-function getCode() {
-  getCodeImg().then(res => {
-    captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled;
-    if (captchaEnabled.value) {
-      codeUrl.value = "data:image/gif;base64," + res.img;
-      registerForm.value.uuid = res.uuid;
-    }
-  });
-}
-
-getCode();
 </script>
 
 <style lang='scss' scoped>
